@@ -13,7 +13,7 @@ from qgis.PyQt.QtWidgets import QFileDialog
 HERE = "/home/jmo/Git/Oslandia/Projects/Gendarmerie/redLayer/"
 
 options = QFileDialog.Options()
-options |= QFileDialog.DontUseNativeDialog
+options |= QFileDialog.Option.DontUseNativeDialog
 sketch_filepath, sketch_suffix_filter = QFileDialog().getSaveFileName(
     parent=None,
     caption="Save RedLayer sketches",

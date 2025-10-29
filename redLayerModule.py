@@ -458,7 +458,7 @@ class redLayer(QgsMapTool):
 
     def canvasPressEvent(self, event):
         # Press event handler inherited from QgsMapTool
-        if event.button() == Qt.RightButton:
+        if event.button() == Qt.MouseButton.RightButton:
             if self.noteButton.isChecked():
                 midIdx = -int(self.points/2)
                 if midIdx == 0:
@@ -490,7 +490,7 @@ class redLayer(QgsMapTool):
                 snappedPoint = self.snapSys.snapToMap(self.pressedPoint)
                 if snappedPoint.isValid():
                     self.pressedPoint = snappedPoint.point()
-                self.sketch = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.LineGeometry)
+                self.sketch = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.GeometryType.LineGeometry)
                 self.sketch.setWidth(self.currentWidth)
                 self.sketch.setColor(self.currentColor)
                 self.sketch.addPoint(self.pressedPoint)
@@ -503,7 +503,7 @@ class redLayer(QgsMapTool):
             self.movedPoint = self.canvas.getCoordinateTransform().toMapCoordinates(x, y)
             if self.canvasAction == "sketch":
                 if abs(x-self.px) > 3 or abs(y-self.py) > 3:
-                    sketch = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.LineGeometry)
+                    sketch = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.GeometryType.LineGeometry)
                     sketch.setWidth(self.currentWidth)
                     sketch.setColor(self.currentColor)
                     sketch.addPoint(self.pressedPoint)
@@ -543,7 +543,7 @@ class redLayer(QgsMapTool):
                                 logger.error(err)
 
     def canvasReleaseEvent(self, event):
-        if event.button() == Qt.RightButton:
+        if event.button() == Qt.MouseButton.RightButton:
             return
         self.pressed = None
         QgsProject.instance().setDirty(True)
@@ -647,7 +647,7 @@ class redLayer(QgsMapTool):
 
                 # use Qt custom FileDialog to be more consistent with QGIS ui
                 options = QFileDialog.Options()
-                options |= QFileDialog.DontUseNativeDialog
+                options |= QFileDialog.Option.DontUseNativeDialog
 
                 # assk user where he wants to save his annotations
                 sketch_filepath, sketch_suffix_filter = QFileDialog().getSaveFileName(
@@ -740,7 +740,7 @@ class redLayer(QgsMapTool):
                     print (line.replace("srs|","").replace("\n",""),source_srs, QgsProject.instance().crs())
                     continue
                 inline = line.split("|")
-                sketch = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.LineGeometry)
+                sketch = QgsRubberBand(self.iface.mapCanvas(), QgsWkbTypes.GeometryType.LineGeometry)
                 sketch.setWidth(int(inline[1]))
                 sketch.setColor(QColor(inline[0]))
                 load_geom = QgsGeometry.fromWkt(inline[2])

@@ -102,9 +102,9 @@ class sketchNoteDialog(QDialog, FORM_CLASS):
 
         dialog.setPoint(segment)
         if not txt:
-            result = dialog.exec_()
+            result = dialog.exec()
             dialog.show()
-            if QDialog.Accepted:
+            if QDialog.DialogCode.Accepted:
                 return dialog.getAnnotation()
             else:
                 return None
